@@ -6,16 +6,18 @@ public class Yahtzee {
 
 	static YahtzeePlayer Player1 = new YahtzeePlayer("Alan");
 
+	static String answer;
+
 	public static Scanner s = new Scanner(System.in);
 
-	private static String askAnswer(String query){
+	public static String askAnswer(String query){
 
 		String input;
 
 		while(true){
 
 			try{
-				System.out.println(query);
+				System.out.print(query);
 				input = s.nextLine();
 				return input;
 			}
@@ -31,7 +33,7 @@ public class Yahtzee {
 		}
 	}
 
-	private static int askInt(String query){
+	public static int askInt(String query){
 
 		int input;
 
@@ -55,7 +57,7 @@ public class Yahtzee {
 		}
 	}
 
-	private static boolean askAgain(){
+	public static boolean askAgain(){
 
 		String input;
 
@@ -94,22 +96,36 @@ public class Yahtzee {
 
 		players = askInt("How many players? ");
 
-
 	}
 
 	public static void main(String[] args) {
 
 		//testCode();
 
-		Player1.roll(); // -> Player1.rawDice
+		//Player1.roll(); // -> Player1.rawDice
+
+		Player1.rawDice[0] = 6;
+		Player1.rawDice[1] = 6;
+		Player1.rawDice[2] = 6;
+		Player1.rawDice[3] = 6;
+		Player1.rawDice[4] = 6;
 
 		Player1.sortedDice = Player1.rawDice.clone(); //Actual separate array, not just pointer
 		Arrays.sort(Player1.sortedDice);
 
 		System.out.println(Arrays.toString(Player1.rawDice));
-		while(true){
-		Player1.reroll();
-		System.out.println(Arrays.toString(Player1.rawDice));
+
+		for(int i = 6; i <= 13; i++){
+
+		Player1.scoredCategories[i] = true;
+
 		}
+
+		do{
+
+			Player1.checkSetYahtzee();
+
+			System.out.println(Player1.scoreList[YahtzeePlayer.parseNames(answer)]);
+		}while(askAgain());
 	}
 }
